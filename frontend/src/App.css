@@ -76,7 +76,6 @@
   background-size: cover;
   opacity:inherit;
 }
-
 .container {
   max-width: 600px;
   padding: 20px;
@@ -90,7 +89,6 @@
   border-color: rebeccapurple;
   border-radius: 7px;
   background-color:aliceblue;
-  
 }
 input{
   padding: 10px;
@@ -132,7 +130,7 @@ height: 20px;
 .del{
 background-color: transparent;
 padding: 0px;
-margin: 0px 0px 0px 15px;
+margin: 0px 0px 8px 15px;
 
 &:hover {
   background-color: #c21111; 
@@ -154,12 +152,11 @@ display: flex;
 }
 .processing{
   font-family: Comic Sans MS ;
-  height: 10px;
-  width: 200px;
+  height: 25px;
+  width: 150px;
   padding: 0;
   margin-bottom: 5px;
-  /* margin-bottom: -120px;
-  margin-top: -40px;  */
+  vertical-align: middle;
 }
 ul {
   list-style: none;
@@ -236,8 +233,11 @@ li {
   border-radius: 5px;
 }
 .heading{
-  font-family: cursive;
+  font-family:Comic Sans MS;
   font-size: 18px;
+  text-align: center;
+  margin: -10px 0px 5px 0px;
+  padding: 0px 0px 10px 0px;
 }
 .no_split{
   font-family: monospace;

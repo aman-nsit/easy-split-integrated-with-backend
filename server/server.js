@@ -33,12 +33,12 @@ if (process.env.NODE_ENV != "production") {
   app.post("/login", usersControllers.login);
   app.get("/logout", usersControllers.logout);
   app.get("/check-auth", requireAuth, usersControllers.checkAuth);
-  app.get("/bills", billsControllers.fetchBills);
+  app.get("/bills", requireAuth,billsControllers.fetchBills);
   app.get("/bill/:id",requireAuth, billsControllers.fetchBill);
-  app.post("/addBill", billsControllers.createBill);
-  app.put("/updateBill/:id", billsControllers.updateBill);
-  app.delete("/deleteBill/:id", billsControllers.deleteBill);
-  app.delete("/deleteBills/", billsControllers.deleteBills);
+  app.post("/addBill", requireAuth,billsControllers.createBill);
+  app.put("/updateBill/:id", requireAuth,billsControllers.updateBill);
+  app.delete("/deleteBill/:id", requireAuth,billsControllers.deleteBill);
+  app.delete("/deleteBills/",requireAuth, billsControllers.deleteBills);
   
   // Start our server
   app.listen(process.env.PORT);

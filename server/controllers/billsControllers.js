@@ -3,7 +3,7 @@ const Bill = require("../models/bill");
 const fetchBills = async (req, res) => {
   try{
     // Find the bills
-    console.log(req.user);
+    // console.log(req.user);
     const bills = await Bill.find({user : req.user._id});
 
     // Respond with them
@@ -54,13 +54,15 @@ const createBill = async (req, res) => {
 const updateBill = async (req, res) => {
   try{
     // Get the id off the url
+    // console.log(req.body);
+    // console.log(req.user);   // here user is attached by middleware by retrieve token from cookie
     const billId = req.params.id;
 
     // Get the data off the req body
     const { payer, amount } = req.body;
 
     // Find and update the record
-    await Bill.findByOneAndUpdate({_id:billId,user :req.user._id}, {
+    await Bill.findOneAndUpdate({_id:billId,user :req.user._id}, {
       payer,
       amount,
     });
@@ -79,10 +81,11 @@ const updateBill = async (req, res) => {
 const deleteBill = async (req, res) => {
   try{
     // get id off url
+    //console.log(req);
     const billId = req.params.id;
 
     // Delete the record
-    await Bill.deleteOne({ id: billId ,user :req.user._id});
+    await Bill.deleteOne({ _id: billId ,user :req.user._id});
 
     // Respond
     res.json({ success: "Record deleted" });

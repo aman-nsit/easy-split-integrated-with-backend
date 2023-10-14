@@ -75,17 +75,17 @@ class priority_queue {
 
 function billCalculator(members,expense) {
 
-    let size = members.size;
+    let size = members.length;
     let individual = expense/size ;
     var receiver = new priority_queue();  // heap for member recieve money from others
     var giver = new priority_queue();     // heap for member give mone to other members
 
-    for (let [member,amount] of members) {
-      if (amount > individual) {           // if spend more money from avg spend
-        receiver.insert([amount - individual, member]);
+    for (let member of members) {
+      if (member.amount > individual) {           // if spend more money from avg spend
+        receiver.insert([member.amount - individual, member.payer]);
       } 
-      else if (amount < individual) {      // if spend less money from avg spend
-        giver.insert([individual -amount, member]);
+      else if (member.amount < individual) {      // if spend less money from avg spend
+        giver.insert([individual -member.amount, member.payer]);
       }
     }
 
