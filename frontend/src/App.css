@@ -1,0 +1,275 @@
+*{
+  margin: 0px;
+}
+.screen{
+  position: relative;
+}
+.log-out{
+  position: absolute;
+  bottom:20;
+  right: 0;
+  background-color: #ff0000;
+  color : white ;
+
+/* Hover effect */
+&:hover {
+  background-color: #c21111; 
+  cursor: pointer;
+}
+.link {
+  text-decoration: none;
+  color: white;
+}
+}
+.form-container{
+  max-width: 600px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 30%;
+  height: 50%;
+  border-style: solid;
+  position: fixed;
+  top: 25%;
+  left: 35%;
+  border-color: rebeccapurple;
+  border-radius: 7px;
+  background-color:aliceblue;
+  align-items: center;
+  
+  .form-heading{
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    padding: 10px;
+    margin: 10px;
+  }
+  .form-input{
+    font-size: 20px;
+    max-width: 50%;
+    padding: 10px;
+    margin: 30px;
+    left: 15%;
+    display: block;
+    text-align: center;
+    position:relative;
+  }
+  .form-button{
+    font-size: 20px;
+    max-width: 50%;
+    padding: 15px;
+    margin: 30px;
+    left: 35%;
+    display: block;
+    text-align: center;
+    position:relative;
+  }
+  .form-link{
+    text-align: center;
+    font-family: cursive;
+  }
+}
+.App {
+  justify-content: center;
+  margin: 0px;
+  align-items: center;
+  height: 100vh;
+  background-image: url(background.jpg);
+  background-size: cover;
+  opacity:inherit;
+}
+
+.container {
+  max-width: 600px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 40%;
+  height: 70%;
+  border-style: solid;
+  position: fixed;
+  top: 22%;
+  left: 30%;
+  border-color: rebeccapurple;
+  border-radius: 7px;
+  background-color:aliceblue;
+  
+}
+input{
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  margin: 5px;
+  border-radius:10px;
+  background-color:cornsilk;
+  max-width: 20%;
+  
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+button:hover {
+  background-color: #0056b3;
+}
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 10px;
+  border-radius: 5px;
+  max-width: 30%;
+  overflow:hidden;
+}
+.del-img{
+width: 20px;
+height: 20px; 
+
+}
+.del{
+background-color: transparent;
+padding: 0px;
+margin: 0px 0px 0px 15px;
+
+&:hover {
+  background-color: #c21111; 
+  cursor: pointer;
+}
+}
+.set-del{
+display: flex;
+}
+.member-list {
+  margin-top: 20px;
+  width: 100%;
+  text-align: left;
+}
+
+.member-list h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.processing{
+  font-family: Comic Sans MS ;
+  height: 10px;
+  width: 200px;
+  padding: 0;
+  margin-bottom: 5px;
+  /* margin-bottom: -120px;
+  margin-top: -40px;  */
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin-bottom: 5px;
+  font-size: 18px;
+  
+}
+.list-header{
+  width: 33%;
+}
+.member-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 250px;
+  overflow-y: auto;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.member-item {
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.member-name {
+  font-weight: bold;
+}
+
+.member-amount {
+  margin-left: 10px;
+}
+
+.member-item li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  
+}
+
+.member-item li b {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.member-item li:nth-child(even) {
+  background-color: #ddd;
+}
+
+.member-item li .reciever {
+  background-color: #66cc66;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.member-item li .payer {
+  background-color: #e6e600;
+  padding: 5px;
+  border-radius: 5px;
+}
+.member-item li .amount {
+  background-color: #ff6666;
+  padding: 5px;
+  border-radius: 5px;
+}
+.heading{
+  font-family: cursive;
+  font-size: 18px;
+}
+.no_split{
+  font-family: monospace;
+  font-size: 20px;
+  box-shadow: 0 0 8px  rgba(153, 153, 153, 0.8); 
+  border-radius: 2px;
+  padding: 5px;
+  
+}  
+
+@media only screen and (max-width: 768px) {
+  .container {
+    width: 100%;
+    left:0%;
+    right: 0%;
+    border-color:aliceblue;
+    border-radius: 0px;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .container {
+    width: 100%;
+    left:0%;
+    right: 0%;
+    border-color:aliceblue;
+    border-radius: 0px;
+  }
+}
+
+ .app-name {
+  position: absolute;
+  top:-120px;
+  left: 32%;
+  margin-bottom: 20px;
+}
