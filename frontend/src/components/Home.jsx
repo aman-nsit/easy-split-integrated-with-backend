@@ -32,6 +32,8 @@ export default function Home() {
 
     const fetchBills = async () => {
         try{
+            let token=localStorage.getItem("accesstoken")
+            axios.defaults.headers.common['token'] = token ;
             const res = await axios.get("/bills");
             // Set to state
             setMembers(res.data.bills);
@@ -104,9 +106,9 @@ export default function Home() {
         setShowExpenses(!showExpenses);
         set_no_split(false)
     }
-  return (
+      return (
     <div>
-        <button className='log-out'><Link className="link" to="logout">Logout</Link></button>
+        <button className='log-out' ><Link className="link" to="logout">Logout</Link></button>
         <div className='container'>
             <h2 className='heading'>Add Expense Here :</h2>
             <div className='form-group'>

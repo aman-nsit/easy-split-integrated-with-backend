@@ -11,7 +11,7 @@ async function requireAuth(req, res, next) {
 
     const token = req.headers.token;
 
-
+    // console.log(token);
     // Decode the token
     const decoded = jwt.verify(token, process.env.SECRET);
 
@@ -21,7 +21,7 @@ async function requireAuth(req, res, next) {
     // Find user using decoded sub
     const user = await User.findById(decoded.sub);
     if (!user) return res.sendStatus(401);
-
+    //console.log(user);
     // attach user to req
     req.user = user;
 

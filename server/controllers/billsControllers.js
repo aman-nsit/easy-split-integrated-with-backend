@@ -4,8 +4,9 @@ const fetchBills = async (req, res) => {
   try{
     // Find the bills
     // console.log(req.user);
+    // console.log(req.user._id);
     const bills = await Bill.find({user : req.user._id});
-
+    // console.log(bills);
     // Respond with them
     res.json({ bills });
   }catch(err){
@@ -33,6 +34,7 @@ const fetchBill = async (req, res) => {
 const createBill = async (req, res) => {
   try{
     // Get the sent in data off request body
+    // console.log(req.user._id);
     const { payer, amount } = req.body;
 
     // Create a bill with it

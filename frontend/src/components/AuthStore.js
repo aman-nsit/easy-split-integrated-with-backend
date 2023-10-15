@@ -23,10 +23,12 @@ const authStore = create((set) => ({
     login : async () =>{
         try{
             const {loginForm} = authStore.getState();
+            const item =localStorage.getItem('accesstoken');
+            console.log(item)
             const res = await axios.post("/login",loginForm)  
             // localStorage.setItem(res.data)
-            console.log(res.data.acesstoken);
-            localStorage.setItem("acesstoken",res.data.acesstoken)
+            // console.log(res.data.accesstoken);
+            localStorage.setItem("accesstoken",res.data.accesstoken)
             set(
                 {loggedIn:true ,    
                 loginForm : {
