@@ -1,13 +1,12 @@
 // Load env variables
-if (process.env.NODE_ENV != "production") {
-    require("dotenv").config();
-  }
+require("dotenv").config();
   
+   
   // Import dependencies
   const express = require("express");
   const cors = require("cors");
   const cookieParser = require("cookie-parser");
-  const connectToDB = require("./config/connetctToDB");
+  const connectToDB = require("./config/connectToDB");
   const billsControllers = require("./controllers/billsControllers");
   const usersControllers = require("./controllers/usersControllers");
   const requireAuth = require("./middleware/requireAuth");
