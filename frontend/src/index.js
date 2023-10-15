@@ -5,7 +5,7 @@ import App from './App';
 import axios from 'axios';
 let token=localStorage.getItem("accesstoken")
 
-axios.defaults.baseURL="http://localhost:5000";
+axios.defaults.baseURL="https://split-app-gpoh.onrender.com";
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common['token'] = token ;
 const root = ReactDOM.createRoot(document.getElementById('root'));
