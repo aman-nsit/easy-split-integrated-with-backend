@@ -166,6 +166,16 @@ display: flex;
   top:35%;
   left :38%;
 }
+.loading-form-div{
+  font-family: Comic Sans MS ;
+  position: absolute;
+  top:82%;
+  left :31%;
+  .loading-img{
+    width: 200px;
+    height: 30px;
+  }
+}
 .payment-img{
   font-family: Comic Sans MS ;
   position: absolute;

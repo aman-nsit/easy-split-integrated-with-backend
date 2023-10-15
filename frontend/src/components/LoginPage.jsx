@@ -1,17 +1,24 @@
-import React from 'react'
-import { Link , Navigate, useNavigate } from 'react-router-dom'
-import authStore from './AuthStore'
+import React,{useState} from 'react'
+import { Link , useNavigate } from 'react-router-dom'
+import authStore from './AuthStore';
+import loadingImg from "../loading.png" ;
 export default function LoginPage() {
+    const [isLoading,setIsLoading] = useState(false);
     const store = authStore();
     const navigate = useNavigate();
     const handleLogin = async (e) =>{
+        setIsLoading(true);
         e.preventDefault();
         await store.login();
 
+        setIsLoading(false);
         navigate("/");
     }
   return (
     <div className='form-container'>
+      {isLoading && <div className='loading-form-div'>
+            <img src={loadingImg} className='loading-img' alt='Loading...'/>
+            </div>}
         <h1 className='form-heading'>Login Page</h1>
         <form onSubmit={handleLogin}>
             <input 

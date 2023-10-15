@@ -1,18 +1,25 @@
-import React from 'react'
+import React , {useState} from 'react'
 import { Link , useNavigate } from 'react-router-dom'
 import authStore from './AuthStore'
+import loadingImg from "../loading.png" ;
 export default function SignupPage() {
+  const [isLoading,setIsLoading] = useState(false);
     const store= authStore();
     const navigate = useNavigate();
     const handleSignUp = async (e) =>{
+      setIsLoading(true);
         e.preventDefault();
         store.signUp();
 
+        setIsLoading(false);
         navigate("/login");
     }
   return (
     <div className='form-container'>
     <h1 className='form-heading'>SignUp Page</h1>
+    {isLoading && <div className='loading-form-div'>
+            <img src={loadingImg} className='loading-img' alt='Loading...'/>
+            </div>}
     <form onSubmit={handleSignUp}>
         <input 
             className='form-input' 
