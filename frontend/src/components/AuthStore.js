@@ -25,8 +25,8 @@ const authStore = create((set) => ({
             const {loginForm} = authStore.getState();
             const res = await axios.post("/login",loginForm)  
             // localStorage.setItem(res.data)
-            // console.log(res.data.acesstoken);
-            // localStorage.setItem("acesstoken",res.data.acesstoken)
+            console.log(res.data.acesstoken);
+            localStorage.setItem("acesstoken",res.data.acesstoken)
             set(
                 {loggedIn:true ,    
                 loginForm : {
@@ -84,8 +84,8 @@ const authStore = create((set) => ({
     } ,
     logOut : async () =>{
         try{
-            const res = await axios.get("/logout");
-                // localStorage.clear();
+            // const res = await axios.get("/logout");
+                localStorage.clear();
                 set({loggedIn : false});
         }catch(err){
             console.log(err);
