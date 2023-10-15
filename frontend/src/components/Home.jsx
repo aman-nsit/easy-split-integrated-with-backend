@@ -55,6 +55,7 @@ export default function Home() {
         else{ // not present create and add in member
             const payer = createForm.payer.toLowerCase();
             const amount = createForm.amount;
+            console.log(payer);
             const res = await axios.post("/addBill", {payer,amount});
         }
         setCreateForm({

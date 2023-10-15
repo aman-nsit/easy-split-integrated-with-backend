@@ -3,8 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import axios from 'axios';
-axios.defaults.baseURL="https://split-app-gpoh.onrender.com";
+// let token=localStorage.getItem("acesstoken")
+
+axios.defaults.baseURL="http://localhost:5000";
 axios.defaults.withCredentials = true;
+// axios.defaults.headers.common['token'] = token ;
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <App />

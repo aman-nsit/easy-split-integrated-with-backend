@@ -38,6 +38,10 @@ async function login(req, res) {
     const token = jwt.sign({ sub: user._id, exp }, process.env.SECRET);
 
     // Set the cookie
+    //set to the json
+    // res.json({
+    //   acesstoken:token
+    // })
     res.cookie("Authorization", token, {
       expires: new Date(exp),
       httpOnly: true,
@@ -46,7 +50,7 @@ async function login(req, res) {
     });
 
     // send it
-    res.sendStatus(200);
+    res.sendStatus(200)
   } catch (err) {
     console.log(err);
     res.sendStatus(400);
