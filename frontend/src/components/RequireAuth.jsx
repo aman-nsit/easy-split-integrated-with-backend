@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import authStore from './AuthStore'
 import { Navigate } from 'react-router-dom';
+import loadingImg from "../loading.png" ;
 export default function RequireAuth(props) {
     const store = authStore();
     useEffect (()=>{
@@ -10,8 +11,8 @@ export default function RequireAuth(props) {
     },[])
     if(store.loggedIn === null){
         return (
-            <div>
-            Loading...
+            <div className='loading-div'>
+            <img src={loadingImg} alt='Loading...'/>
             </div>
         )
     }

@@ -3,6 +3,7 @@ import billCalculator from '../service/service';
 import axios from "axios";
 import delImg from "../delete.png" ;
 import loadingImg from "../loading.png" ;
+import paymentImg from "../payment.png" ;
 import {Link} from "react-router-dom";
 export default function Home() {
 
@@ -43,7 +44,7 @@ export default function Home() {
         setIsLoading(true);
         e.preventDefault();
         // check present or not in members if yes just do update
-        const member =  members.find((member) => member.payer === createForm.payer);
+        const member =  members.find((member) => member.payer === createForm.payer.toLowerCase());
         if(member){
             console.log(member);
             const payer = member.payer;
@@ -52,7 +53,9 @@ export default function Home() {
             const res = await axios.put(`/updateBill/${member._id}`, {payer:payer,amount:amount});
         }
         else{ // not present create and add in member
-            const res = await axios.post("/addBill", createForm);
+            const payer = createForm.payer.toLowerCase();
+            const amount = createForm.amount;
+            const res = await axios.post("/addBill", {payer,amount});
         }
         setCreateForm({
           payer: "",
@@ -153,7 +156,9 @@ export default function Home() {
             </div>}
             </div>
             
+            { !res && members.length==0 && <img className='payment-img' src={paymentImg}/>}
         </div>
+
     </div>
   )
 }
