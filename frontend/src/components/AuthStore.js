@@ -1,8 +1,8 @@
-import React from 'react'
-import create from "zustand"
+import React from 'react';
+import {create} from "zustand" ;
 import  axios from "axios";
+import { Navigate } from 'react-router-dom';
 const authStore = create((set) => ({
-
     loggedIn : null ,
 
     loginForm:{
@@ -46,8 +46,12 @@ const authStore = create((set) => ({
             await axios.get("/check-auth", {withCredentials: true});
             set({loggedIn : true});
         }catch(err){
+            
             set({loggedIn : false});
             console.log(err);
+            return (
+                <Navigate to="/login" />
+            )
         }
         
     } ,
