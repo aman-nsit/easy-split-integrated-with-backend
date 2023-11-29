@@ -5,13 +5,13 @@ const User = require("../models/user");
 async function signup(req, res) {
   try {
     // Get the email and password off req body
-    const { email, password } = req.body;
+    const { user_name , email, password } = req.body;
 
     // Hash password
     const hashedPassword = bcrypt.hashSync(password, 8);
 
     // Create a user with the daTa
-    await User.create({ email, password: hashedPassword });
+    await User.create({ user_name , email, password: hashedPassword });
 
     // respond
     res.sendStatus(200);
@@ -69,6 +69,16 @@ function logout(req, res) {
     res.sendStatus(400);
   }
 }
+const fetchUserDetails = async (req,res) => {
+  try{
+    const userDetails = await User.findOne({email:req.user.email});
+    res.json({user_name:userDetails.user_name});
+  }
+  catch(err){
+    console.log(err);
+    res.sendStatus(200);
+  }
+} ;
 
 function checkAuth(req, res) {
   try {
@@ -83,4 +93,5 @@ module.exports = {
   login,
   logout,
   checkAuth,
+  fetchUserDetails
 };

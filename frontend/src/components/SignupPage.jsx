@@ -22,6 +22,14 @@ export default function SignupPage() {
             </div>}
     <form onSubmit={handleSignUp}>
         <input 
+                className='form-input' 
+                placeholder='Enter Your Name'
+                value={store.signUpForm.name} 
+                onChange={store.updateSignUpForm} 
+                name="user_name" 
+                required
+        />
+        <input 
             className='form-input' 
             placeholder='Enter Email' 
             value={store.signUpForm.email} 

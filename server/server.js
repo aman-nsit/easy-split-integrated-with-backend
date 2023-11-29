@@ -32,6 +32,7 @@ require("dotenv").config();
   app.post("/login", usersControllers.login);
   app.get("/logout", usersControllers.logout);
   app.get("/check-auth", requireAuth, usersControllers.checkAuth);
+  app.get("/userDetails",requireAuth, usersControllers.fetchUserDetails);
   app.get("/bills", requireAuth,billsControllers.fetchBills);
   app.get("/bill/:id",requireAuth, billsControllers.fetchBill);
   app.post("/addBill", requireAuth,billsControllers.createBill);

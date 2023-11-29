@@ -43,10 +43,16 @@ const authStore = create((set) => ({
     } , 
     checkAuth : async () =>{
         try{
-            await axios.get("/check-auth", {withCredentials: true});
+            // await axios.get("/check-auth", {withCredentials: true}); // not rquire set default in index.js
+            // await axios.get("/check-auth");
+            // set({loggedIn : true});
+
+            const authCheckPromise = axios.get("/check-auth");
+            await Promise.race([authCheckPromise, new Promise(resolve => setTimeout(resolve, 50000 ))]);
+
             set({loggedIn : true});
         }catch(err){
-            
+            console.log("done");
             set({loggedIn : false});
             console.log(err);
             return (
@@ -57,6 +63,7 @@ const authStore = create((set) => ({
     } ,
 
     signUpForm:{
+        user_name:"",
         email:"",
         password : "",
     },
@@ -79,6 +86,7 @@ const authStore = create((set) => ({
             })  
             set({
                 signUpForm : {
+                    user_name:"",
                     email : "",
                     password : ""
                 }

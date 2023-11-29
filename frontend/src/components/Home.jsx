@@ -8,6 +8,7 @@ import {Link} from "react-router-dom";
 export default function Home() {
 
     const memberList =[]
+    const [userName,setUserName] = useState("");
     const [no_need_to_split , set_no_split] =useState(false);
     const [res,getRes] = useState();
     const [showExpenses,setShowExpenses] = useState(true);
@@ -28,7 +29,13 @@ export default function Home() {
 
     useEffect(() => {
         fetchBills();
+        fetchUserDetails();
     }, []);
+
+    const fetchUserDetails = async() =>{
+        const res = await axios.get('/userDetails'); 
+        setUserName(res.data.user_name);
+    }
 
     const fetchBills = async () => {
         try{
@@ -110,7 +117,7 @@ export default function Home() {
     <div>
         <button className='log-out' ><Link className="link" to="logout">Logout</Link></button>
         <div className='container'>
-            <h2 className='heading'>Add Expense Here :</h2>
+            <h2 className='heading'>{userName} , Add Expense Here :</h2>
             <div className='form-group'>
                 <form onSubmit={createBill}>
                     <input onChange={updateCreateFormField} value={createForm.payer} name="payer" placeholder='Member Name' type="text" required/>
