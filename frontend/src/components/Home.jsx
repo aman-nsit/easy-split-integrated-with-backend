@@ -45,13 +45,15 @@ export default function Home() {
     }, []);
 
     const fetchUserDetails = async() =>{
+        let token=localStorage.getItem("accesstoken")
+        axios.defaults.headers.common['token'] = token ;
         const res = await axios.get('/users/userDetails');
         setUserDetails(res.data);
         const res2 = await axios.get('/users/allUsers');
         const total_users=res2.data;
         for(let i=0;i<total_users.length;i++){
             if(res.data._id===total_users[i]._id){
-                console.log(res.data._id);
+                // console.log(res.data._id);
                 total_users.splice(i,1);
             }
         }
@@ -64,7 +66,7 @@ export default function Home() {
         try{
             setIsLoading(true);
         e.preventDefault();
-        console.log(createForm);
+        // console.log(createForm);
         let userId =  createForm.payer;
         let amount = createForm.amount;
         amount = parseInt(createForm.amount);
@@ -77,7 +79,7 @@ export default function Home() {
         }
         let res ;
         if(!OldBill){
-            console.log(selectedGroup._id);
+            // console.log(selectedGroup._id);
              res = await axios.post(`/bills/addBill/${selectedGroup._id}`, {userId,amount});
         }
         else{ 
@@ -91,7 +93,7 @@ export default function Home() {
           amount: "",
         });
         handleGroupClick(selectedGroup._id);
-        console.log(res);
+        // console.log(res);
         setIsLoading(false);
         }
         catch(err){
@@ -167,7 +169,7 @@ export default function Home() {
             setIsLoading(true);
             const res = await axios.get(`/groups/group-details/${groupId}`); 
             setSelectedGroup(res.data);
-            console.log(res.data.users);
+            // console.log(res.data.users);
             setUsersList(res.data.users);
             // console.log(usersList);
             setMembers(res.data.bills);

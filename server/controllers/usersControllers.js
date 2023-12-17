@@ -42,18 +42,18 @@ async function login(req, res) {
 
     // Set the cookie
 
-    res.cookie("Authorization", token, {
-      expires: new Date(exp),
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-    });
+    // res.cookie("Authorization", token, {
+    //   expires: new Date(exp),
+    //   httpOnly: true,
+    //   sameSite: "lax",
+    //   secure: process.env.NODE_ENV === "production",
+    // });
 
     // send it
-    res.sendStatus(200);
-    // res.status(200).json({
-    //   accesstoken: token,
-    // });
+    // res.sendStatus(200);
+    res.status(200).json({
+      accesstoken: token,
+    });
   } catch (err) {
     console.log(err);
     res.sendStatus(400);
@@ -92,6 +92,7 @@ function checkAuth(req, res) {
   try {
     res.sendStatus(200);
   } catch (err) {
+    console.log(err);
     return res.sendStatus(400);
   }
 
