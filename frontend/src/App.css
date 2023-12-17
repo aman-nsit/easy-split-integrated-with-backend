@@ -16,10 +16,11 @@
   background-color: #c21111; 
   cursor: pointer;
 }
+
+}
 .link {
   text-decoration: none;
   color: white;
-}
 }
 .form-container{
   max-width: 600px;
@@ -46,8 +47,8 @@
     font-size: 20px;
     max-width: 50%;
     padding: 10px;
-    margin: 30px;
-    left: 15%;
+    margin: 10px;
+    left: 20%;
     display: block;
     text-align: center;
     position:relative;
@@ -56,7 +57,7 @@
     font-size: 20px;
     max-width: 50%;
     padding: 15px;
-    margin: 30px;
+    margin: 20px;
     left: 35%;
     display: block;
     text-align: center;
@@ -64,6 +65,12 @@
   }
   .form-link{
     text-align: center;
+    font-family: cursive;
+    margin: 10px;
+  }
+  .warning{
+    text-align: center;
+    font-size: 12px;
     font-family: cursive;
   }
 }
@@ -121,7 +128,7 @@ button {
   font-size: 16px;
   margin: 10px;
   border-radius: 5px;
-  max-width: 30%;
+  max-width: 50%;
   overflow:hidden;
 }
 .del-img{
@@ -298,4 +305,62 @@ li {
   top:-120px;
   left: 33%;
   margin-bottom: 20px;
+}
+
+
+
+
+.container-group {
+  max-width: 200px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 40%;
+  height: 70%;
+  border-style: solid;
+  position: fixed;
+  top: 22%;
+  left: 5%;
+  border-color: rebeccapurple;
+  border-radius: 7px;
+  background-color:aliceblue;
+}
+
+.group-name{
+  cursor: pointer;
+}
+.heading-group{
+  font-family:Comic Sans MS;
+  font-size: 22px;
+  text-align: center;
+}
+
+
+.container-users {
+  max-width: 200px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 20%;
+  height: 70%;
+  border-style: solid;
+  position: fixed;
+  top: 22%;
+  right: 5%;
+  border-color: rebeccapurple;
+  border-radius: 7px;
+  background-color:aliceblue;
+  .user-button{
+    width:200px
+  }
+}
+select{
+  padding: 10px;
+  padding-right: 50px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  margin: 5px;
+  margin-left: 10px;
+  border-radius:10px;
+  background-color:rgb(229, 229, 229);
+  max-width: 30%;
 }

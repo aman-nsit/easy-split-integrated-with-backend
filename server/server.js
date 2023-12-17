@@ -1,16 +1,14 @@
 // Load env variables
 require("dotenv").config();
   
-   
   // Import dependencies
   const express = require("express");
   const cors = require("cors");
   const cookieParser = require("cookie-parser");
   const connectToDB = require("./config/connectToDB");
-  const billsControllers = require("./controllers/billsControllers");
-  const usersControllers = require("./controllers/usersControllers");
-  const requireAuth = require("./middleware/requireAuth");
-  
+  const userRoutes = require('./routes/userRoutes');
+  const groupRoutes = require('./routes/groupRoutes');
+  const billRoutes = require('./routes/billRoutes');
   // Create an express app
   const app = express();
   
@@ -28,17 +26,9 @@ require("dotenv").config();
   connectToDB();
   
   // Routing
-  app.post("/signup", usersControllers.signup);
-  app.post("/login", usersControllers.login);
-  app.get("/logout", usersControllers.logout);
-  app.get("/check-auth", requireAuth, usersControllers.checkAuth);
-  app.get("/userDetails",requireAuth, usersControllers.fetchUserDetails);
-  app.get("/bills", requireAuth,billsControllers.fetchBills);
-  app.get("/bill/:id",requireAuth, billsControllers.fetchBill);
-  app.post("/addBill", requireAuth,billsControllers.createBill);
-  app.put("/updateBill/:id", requireAuth,billsControllers.updateBill);
-  app.delete("/deleteBill/:id", requireAuth,billsControllers.deleteBill);
-  app.delete("/deleteBills/",requireAuth, billsControllers.deleteBills);
+  app.use('/users', userRoutes); 
+  app.use('/groups', groupRoutes); 
+  app.use('/bills', billRoutes);
   
-  // Start our server
+  // Start our server`
   app.listen(process.env.PORT);

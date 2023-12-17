@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
+  name:{
+    type: String,
+    required: true,
+  } ,
   user_name:{
     type: String,
     required: true,
@@ -17,7 +21,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  bills : [{type:mongoose.Schema.Types.ObjectId , ref : "Bill"}],  
+  bills : [{type:mongoose.Schema.Types.ObjectId , ref : "Bill"}], 
+  joined_groups : [{type:mongoose.Schema.Types.ObjectId , ref : "Group"}]
 });
 
 const User = mongoose.model("User", userSchema);

@@ -4,15 +4,12 @@ const User = require("../models/user");
 async function requireAuth(req, res, next) {
   try {
     // Read token off cookies
-    // console.log(req);
-    // console.log(req);  
     // console.log(req.header);
+    // const token = req.headers.token;
     // console.log(req.cookies);
-
-    const token = req.headers.token;
-
-    // console.log(token);
-    // Decode the token
+    const token = req.cookies.Authorization;
+     
+    // Decode the token 
     const decoded = jwt.verify(token, process.env.SECRET);
 
     // Check expiration

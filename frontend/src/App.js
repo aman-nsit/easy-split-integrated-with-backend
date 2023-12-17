@@ -5,6 +5,7 @@ import LogoutPage from './components/LogoutPage';
 import Home from './components/Home';
 import RequireAuth from './components/RequireAuth';
 import Header from "./components/Header"
+import Normal from './components/Normal';
 import './App.css' ;
 function App() {
 
@@ -15,12 +16,13 @@ function App() {
         <Routes>
           <Route index element={
             <RequireAuth>
-              <Home />
+              <Home /> 
              </RequireAuth>
           } />
-          <Route path="/login" element = {<LoginPage />} />
-          <Route path="/signup" element = {<SignupPage />} />
-          <Route path="/logout" element = {<LogoutPage />} />
+          <Route path="/normalSplit" element = {<Normal />} />
+          <Route path="/users/signup" element = {<SignupPage />} />
+          <Route path="/users/login" element = {<LoginPage />} />
+          <Route path="/users/logout" element = {<LogoutPage />} />
         </Routes>
       </BrowserRouter>
     </div>

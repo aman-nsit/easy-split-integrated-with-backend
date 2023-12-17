@@ -13,7 +13,7 @@ export default function LogoutPage() {
     
   }, [store]);
   function navi(){
-    navigate('/login');
+    navigate('/users/login');
   }
   return (
     <div>

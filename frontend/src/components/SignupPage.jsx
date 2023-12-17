@@ -4,15 +4,16 @@ import authStore from './AuthStore'
 import loadingImg from "../loading.png" ;
 export default function SignupPage() {
   const [isLoading,setIsLoading] = useState(false);
+  const [exist,setExist]=useState(false);
     const store= authStore();
     const navigate = useNavigate();
     const handleSignUp = async (e) =>{
       setIsLoading(true);
         e.preventDefault();
-        store.signUp();
-
+        let res = store.signUp();
         setIsLoading(false);
-        navigate("/login");
+        console.log(res.data);
+        navigate("/users/login");
     }
   return (
     <div className='form-container'>
@@ -25,6 +26,14 @@ export default function SignupPage() {
                 className='form-input' 
                 placeholder='Enter Your Name'
                 value={store.signUpForm.name} 
+                onChange={store.updateSignUpForm} 
+                name="name" 
+                required
+        />
+        <input 
+                className='form-input' 
+                placeholder='Enter User Name'
+                value={store.signUpForm.user_name} 
                 onChange={store.updateSignUpForm} 
                 name="user_name" 
                 required
@@ -49,7 +58,12 @@ export default function SignupPage() {
         />
         <button className='form-button'>SignUp</button>
     </form>
-  <div className='form-link'>Are you already registered?<Link to="/login">Login</Link></div>
+    {
+      exist &&   <div className='warning'>* username already exist*</div>
+    }
+  <div className='form-link'>Are you already registered?<Link to="/users/login">Login</Link></div>
+  <div className='warning'>* username should be unique *</div>
+
 </div>
   )
 }

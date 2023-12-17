@@ -41,7 +41,7 @@ export default function LoginPage() {
             />
             <button className='form-button'>Login</button>
         </form>
-      <div className='form-link'>Are you not registered?<Link to="/signup">SignUp</Link></div>
+      <div className='form-link'>Are you not registered?<Link to="/users/signup">SignUp</Link></div>
     </div>
   )
 }

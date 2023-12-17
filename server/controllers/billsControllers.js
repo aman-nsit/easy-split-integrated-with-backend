@@ -1,14 +1,18 @@
 const Bill = require("../models/bill");
-
+const Group = require("../models/group");
+const User = require("../models/user");
+const billCalculator = require("../service/service");
 const fetchBills = async (req, res) => {
   try{
-    // Find the bills
-    // console.log(req.user);
-    // console.log(req.user._id);
-    const bills = await Bill.find({user : req.user._id});
-    // console.log(bills);
-    // Respond with them
-    res.json({ bills });
+    console.log(req.params.groupId)
+    const group = await Group.findOne({_id : req.params.groupId}).populate('bills');
+    if(!group){
+      return res.status(400).json({"message": "Group Not Found"});
+    }
+    if(group.users.indexOf(req.user._id)===-1){
+      return res.status(400).json({"message": "User Not Linked To This Group"});
+    }
+    res.json(group.bills);
   }catch(err){
     console.log(err);
     res.sendStatus(400);
@@ -18,35 +22,39 @@ const fetchBills = async (req, res) => {
 const fetchBill = async (req, res) => {
   try{
     const billId = req.params.id;
-
-  // Find the bill using that id
-  const bill = await Bill.findOne({_id : billId,user :req.user._id});
-
-  // Respond with the bill
-  res.json({ bill });
+    const bill = await Bill.findOne({_id : billId,user :req.user._id});
+    res.json({ bill });
   }catch(err){
     console.log(err); 
     res.sendStatus(400);
   }
-  
 };
-
 const createBill = async (req, res) => {
   try{
-    // Get the sent in data off request body
-    // console.log(req.user._id);
-    const { payer, amount } = req.body;
-
-    // Create a bill with it
+    const { userId, amount } = req.body;
+    const group = await Group.findById(req.params.groupId);
+    const payer_details = await User.findById(userId);
+    // console.log(group);
+    if(!group){
+      return res.status(400).json({"message": "Group Not Found"});
+    }
+    // console.log(payer_details);
+    if(!payer_details){
+      return res.status(400).json({"message": "Payer Not Registered"});
+    }
+    if(group.users.indexOf(payer_details._id) === -1){
+      return res.status(400).json({"message": "Payer Not Linked To This Group"});
+    }
     const bill = await Bill.create({
-      payer,
+      payer : payer_details.user_name,
       amount,
-      user : 
-      req.user._id,
+      addedBy: req.user._id , 
+      payer_id : payer_details._id,
+      group : group._id
     });
-
-    // respond with the new bill
-    res.json({ bill });
+    group.bills.push(bill._id);
+    await group.save();
+    res.json({ bill , group});
   }catch(err){
     console.log(err); 
     res.sendStatus(400);
@@ -55,23 +63,27 @@ const createBill = async (req, res) => {
 
 const updateBill = async (req, res) => {
   try{
-    // Get the id off the url
-    // console.log(req.body);
-    // console.log(req.user);   // here user is attached by middleware by retrieve token from cookie
-    const billId = req.params.id;
-
-    // Get the data off the req body
-    const { payer, amount } = req.body;
+   
+    const {billId ,groupId } = req.params;
+    const group = await Group.findById(groupId);
+    if(!group){
+      return res.status(400).json({"message": "Group Not Found"});
+    }
+    if(group.users.indexOf(req.user._id)===-1){
+      return res.status(400).json({"message": "User Not Linked To This Group"});
+    }
+    const { userId, amount } = req.body;
 
     // Find and update the record
-    await Bill.findOneAndUpdate({_id:billId,user :req.user._id}, {
-      payer,
-      amount,
-    });
-
-    // Find updated bill
     const bill = await Bill.findById(billId);
-
+    if(!bill){
+      return res.status(400).json({"message": "This user has not any bill registered in this group"});
+    }
+    if(group.bills.indexOf(billId)===-1){
+      return res.status(400).json({"message": "This bill not Linked To This Group"});
+    }
+    bill.amount+=amount;
+    bill.save();
     // Respond with it
     res.json({ bill });
   }catch(err){
@@ -82,13 +94,22 @@ const updateBill = async (req, res) => {
 
 const deleteBill = async (req, res) => {
   try{
-    // get id off url
-    //console.log(req);
-    const billId = req.params.id;
-
-    // Delete the record
-    await Bill.deleteOne({ _id: billId ,user :req.user._id});
-
+    const { billId ,groupId } = req.params;
+    const group = await Group.findOne({_id : groupId});
+    if(!group){
+      return res.status(400).json({"message": "Group Not Found"});
+    }
+    if(group.users.indexOf(req.user._id)===-1){
+      return res.status(400).json({"message": "User Not Linked To This Group"});
+    }
+    // check bill is is part of group or not .
+    const ind = group.bills.indexOf(billId) ;
+    if(ind===-1){
+        return res.status(404).json({ message: 'Bill To remove is not a Related to this group' });
+    }
+    group.bills.splice(ind,1);
+    await group.save();
+    await Bill.deleteOne({ _id: billId });
     // Respond
     res.json({ success: "Record deleted" });
   }catch(err){
@@ -98,18 +119,64 @@ const deleteBill = async (req, res) => {
 };
 const deleteBills = async (req, res) => {
   try{
-    // get id off url
-    // const billId = req.params.id;
-
+    const groupId = req.params.groupId;
+    const group = await Group.findOne({_id : groupId});
+    if(!group){
+      return res.status(400).json({"message": "Group Not Found"});
+    }
+    if(group.users.indexOf(req.user._id)===-1){
+      return res.status(400).json({"message": "User Not Linked To This Group"});
+    }
     // Delete the record
-    await Bill.deleteMany({user :req.user._id});
+    await Bill.deleteMany({_id :{ $in : group.bills}});
+    group.bills=[];
+    await group.save();
     // Respond
-    res.json({ success: "All Record deleted" });
+    res.json({ success: "All Bill Records deleted successfully" });
   }catch(err){
     console.log(err); 
     res.sendStatus(400);
   }
 };
+
+const splitBills = async (req, res) => {
+  try{
+    const group = await Group.findById(req.params.groupId).populate( 
+      {path:'bills',select:'payer amount'}).populate(
+        {path:'users',select : '_id user_name'}
+      );
+    if(!group){
+      return res.status(400).json({"message": "Group Not Found"});
+    }
+    let user = group.users.filter((user)=> user==req.user._id)
+    if(!user){
+      return res.status(400).json({"message": "User Not Linked To This Group"});
+    }
+    let bills=group.bills;
+    let trans =[];
+    for(let user of group.users){
+        if(user.user_name)trans.push({payer:user.user_name,amount:0});
+    }
+    let total_expense = 0;
+    bills.forEach((bill)=>{
+      let existingPayer = trans.find(user => bill.payer === user.payer);
+
+      if (existingPayer) {
+          existingPayer.amount += bill.amount;
+      } else {
+          trans.push({ payer: bill.payer, amount: bill.amount });
+      }
+      total_expense+=bill.amount;
+    });
+    let splittedBills = billCalculator(trans,total_expense);
+    // console.log(splittedBills);
+    res.json(splittedBills);
+  }catch(err){
+    console.log(err);
+    res.sendStatus(400);
+  }
+};
+
 module.exports = {
   fetchBills,
   fetchBill,
@@ -117,4 +184,5 @@ module.exports = {
   updateBill,
   deleteBill,
   deleteBills,
+  splitBills
 };

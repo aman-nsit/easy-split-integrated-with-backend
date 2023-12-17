@@ -18,7 +18,7 @@ export default function RequireAuth(props) {
     }
     if(store.loggedIn === false){
         return (
-            <Navigate to="/login" />
+            <Navigate to="/users/login" />
         )
     }
     return(

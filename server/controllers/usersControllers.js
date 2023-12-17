@@ -5,13 +5,16 @@ const User = require("../models/user");
 async function signup(req, res) {
   try {
     // Get the email and password off req body
-    const { user_name , email, password } = req.body;
-
+    const { name , user_name , email, password } = req.body;
+    const temp_user = await User.findOne({user_name});
+    if(temp_user){
+      return res.json("User_name Already Exist")
+    }
     // Hash password
     const hashedPassword = bcrypt.hashSync(password, 8);
 
     // Create a user with the daTa
-    await User.create({ user_name , email, password: hashedPassword });
+    await User.create({ name, user_name , email, password: hashedPassword });
 
     // respond
     res.sendStatus(200);
@@ -38,22 +41,19 @@ async function login(req, res) {
     const token = jwt.sign({ sub: user._id, exp }, process.env.SECRET);
 
     // Set the cookie
-    //set to the jsonm 
-    // res.json({
-    //   acesstoken:token
-    // })
-    // res.cookie("Authorization", token, {
-    //   expires: new Date(exp),
-    //   httpOnly: true,
-    //   sameSite: "lax",
-    //   secure: process.env.NODE_ENV === "production",
-    // });
+
+    res.cookie("Authorization", token, {
+      expires: new Date(exp),
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    });
 
     // send it
-    // res.sendStatus(200);
-    res.status(200).json({
-      accesstoken: token,
-    });
+    res.sendStatus(200);
+    // res.status(200).json({
+    //   accesstoken: token,
+    // });
   } catch (err) {
     console.log(err);
     res.sendStatus(400);
@@ -72,8 +72,16 @@ function logout(req, res) {
 const fetchUserDetails = async (req,res) => {
   try{
     const userDetails = await User.findOne({email:req.user.email});
-    res.json({user_name:userDetails.user_name});
+    res.json({
+      _id:userDetails._id,
+      name:userDetails.name,
+      user_name:userDetails.user_name ,
+      joined_groups:userDetails.joined_groups,
+      user_bills : userDetails.bills 
+
+    });
   }
+  
   catch(err){
     console.log(err);
     res.sendStatus(200);
@@ -86,6 +94,21 @@ function checkAuth(req, res) {
   } catch (err) {
     return res.sendStatus(400);
   }
+
+}
+
+const getAllUsers = async (req,res) => {
+  try{
+    const userDetails = await User.find({},'_id user_name');
+    res.json(
+      userDetails
+
+    );
+  }
+  catch(err){
+    console.log(err);
+    res.sendStatus(400);
+  }
 }
 
 module.exports = {
@@ -93,5 +116,6 @@ module.exports = {
   login,
   logout,
   checkAuth,
-  fetchUserDetails
+  fetchUserDetails,
+  getAllUsers
 };

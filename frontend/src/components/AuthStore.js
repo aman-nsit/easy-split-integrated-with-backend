@@ -22,13 +22,15 @@ const authStore = create((set) => ({
     },
     login : async () =>{
         try{
+            // console.log(loginForm);
             const {loginForm} = authStore.getState();
-            const item =localStorage.getItem('accesstoken');
-            console.log(item)
-            const res = await axios.post("/login",loginForm)  
+            // const item =localStorage.getItem('accesstoken');
+            // console.log(item)
+            const res = await axios.post("/users/login",loginForm) 
+            console.log(res); 
             // localStorage.setItem(res.data)
             // console.log(res.data.accesstoken);
-            localStorage.setItem("accesstoken",res.data.accesstoken)
+            // localStorage.setItem("accesstoken",res.data.accesstoken)
             set(
                 {loggedIn:true ,    
                 loginForm : {
@@ -38,7 +40,7 @@ const authStore = create((set) => ({
             });
             
         }catch(err){
-            console.log(err);
+            console .log(err);
         }
     } , 
     checkAuth : async () =>{
@@ -46,23 +48,21 @@ const authStore = create((set) => ({
             // await axios.get("/check-auth", {withCredentials: true}); // not rquire set default in index.js
             // await axios.get("/check-auth");
             // set({loggedIn : true});
-
-            const authCheckPromise = axios.get("/check-auth");
-            await Promise.race([authCheckPromise, new Promise(resolve => setTimeout(resolve, 50000 ))]);
+            await axios.get("/users/check-auth");
 
             set({loggedIn : true});
         }catch(err){
-            console.log("done");
             set({loggedIn : false});
             console.log(err);
             return (
-                <Navigate to="/login" />
+                <Navigate to="/users/login" />
             )
         }
         
     } ,
 
     signUpForm:{
+        name:"",
         user_name:"",
         email:"",
         password : "",
@@ -81,7 +81,8 @@ const authStore = create((set) => ({
     signUp : async () => {
         try{
             const {signUpForm} = authStore.getState();
-            const res = await axios.post("/signup",signUpForm,{
+            console.log(signUpForm);
+            const res = await axios.post("/users/signup",signUpForm,{
                 withCredentials: true
             })  
             set({
@@ -98,13 +99,13 @@ const authStore = create((set) => ({
     } ,
     logOut : async () =>{
         try{
-            // const res = await axios.get("/logout");
-                localStorage.clear();
+            const res = await axios.get("/users/logout");
+                // localStorage.clear();
                 set({loggedIn : false});
+                console.log("logged_out");
         }catch(err){
             console.log(err);
         }
     }
-
 }));
 export default authStore;
