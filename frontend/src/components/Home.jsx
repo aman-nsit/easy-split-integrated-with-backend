@@ -261,9 +261,7 @@ export default function Home() {
       </ul>
     </div>
     </div>
-    {/* <button style={{position:'fixed',bottom:'130px'}}>
-      <Link className="link" to="/normalSplit">Normal Split</Link>
-    </button> */}
+    
   </div>
 
   <div className='container-users'>
@@ -293,6 +291,10 @@ export default function Home() {
           </div>
           <button className='user-button' style={{position:'fixed'}}>Create Group</button>
         </form>
+        <div className='personal'>* For Personal Use *</div>
+        <button className='normal-split' >
+      <Link className="link" to="/normalSplit">Normal Split</Link>
+    </button>
       </div>
     ) : (
       <p>Loading users...</p>

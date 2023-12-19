@@ -350,6 +350,23 @@ li {
   border-color: rebeccapurple;
   border-radius: 7px;
   background-color:aliceblue;
+  .normal-split{
+    position:fixed;
+    bottom:40px;
+    width:9%;
+    padding: 15px;
+    /* background-color: #0056b3; */
+    &:hover {
+      background-color:rgb(57, 57, 137); 
+      cursor: pointer;
+    }
+  }
+  .personal{
+    margin-left: 10px;
+    position:fixed;
+    bottom:100px;
+    font-weight: bold;
+  }
   
 }
 select{
@@ -417,3 +434,5 @@ select{
     background-color: #ddd;
   }
 }
+
+
