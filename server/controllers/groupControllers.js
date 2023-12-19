@@ -100,10 +100,10 @@ const fetchGroupsName = async (req, res) => {
 
   const removeGroup = async (req,res) => {
     try {
-        const group_name = req.params.group_name;
+        const groupId = req.params.groupId;
         const userId = req.user._id; 
-        const group = await Group.findOne({group_name});
-        
+        const group = await Group.findById(groupId);
+        // console.log(group)
         if (!group) {
           return res.status(404).json({ message: 'Group not found' });
         }
@@ -112,7 +112,12 @@ const fetchGroupsName = async (req, res) => {
         if (group.group_admin.toString() !== userId.toString()) {
           return res.status(403).json({ message: 'Unauthorized: Only group admin can delete the group' });
         }
-    
+
+        await Bill.deleteMany({ _id: { $in: group.bills } });
+        await User.updateMany(
+          { _id: { $in:group.users } }, 
+          { $pull: { joinedGroup: group._id } },
+        )
         await Group.findByIdAndDelete(group._id);
         res.json({ message: 'Group deleted successfully' });
       } catch (error) {

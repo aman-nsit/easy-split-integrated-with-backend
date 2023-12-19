@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import billCalculator from '../service/service';
 import { useNavigate } from 'react-router-dom';
+import paymentImg from "../payment.png" ;
 
 const members = new Map();
 let expense=0;
 function Normal() {
     const navigate = useNavigate();
-
+  const [showExpenses,setShowExpenses] = useState(true);
   const [name , setName] = useState('');
   const [amount , setAmount] = useState('');
   const [memberList , setMemberList] = useState(null);
@@ -36,6 +37,7 @@ function Normal() {
     // list of updated members 
     const newMemberList = Array.from(members).map(([memberName, amount]) => ({ name: memberName, amount }));
     setMemberList(newMemberList);
+    setShowExpenses(true);
   }
   }
   const handleSplitBills = (e) => {
@@ -49,6 +51,7 @@ function Normal() {
           getRes(billresult);
         }
       }
+      setShowExpenses(false);
   }
   const handleReset =(e) =>{
     expense=0;
@@ -57,6 +60,11 @@ function Normal() {
     set_no_split(false);
     members.clear();
   }
+  const handleShowExpenses = async () => {
+    getRes();
+    setShowExpenses(!showExpenses);
+    set_no_split(false)
+}
   return (
     <div className='container'>
       <div className="form-group">
@@ -81,7 +89,8 @@ function Normal() {
         </div>  
       }
         <div>    
-          <button onClick={handleSplitBills}>Split Bill</button>
+        {showExpenses && <button onClick={handleSplitBills}>Split Bill</button>}
+        {!showExpenses && <button onClick={handleShowExpenses}>Show Expenses</button>}
           <button onClick={handleReset}>Reset</button>
           <button onClick={() => navigate('/')}>Split in Group</button>
           {
@@ -102,6 +111,8 @@ function Normal() {
             ))}
           </ul>
         </div>}
+        {!res &&  !memberList && <img className='payment-img' src={paymentImg} />}
+
       </div>
     </div>
   )

@@ -12,7 +12,7 @@ router.post('/join-group/:groupId',requireAuth ,groupControllers.joinGroup);
 router.get('/',requireAuth ,groupControllers.fetchGroupsName);
 router.get('/:userId',requireAuth ,groupControllers.fetchMyGroups);
 router.get('/group-details/:groupId',requireAuth ,groupControllers.fetchGroupDetails);
-router.delete('/delete-group/:group_name',requireAuth ,groupControllers.removeGroup);
+router.delete('/delete-group/:groupId',requireAuth ,groupControllers.removeGroup);
 router.delete('/remove-group-member/:memberEmail/:groupName',requireAuth ,groupControllers.removeMemberFromGroup);
-
+    
 module.exports = router;

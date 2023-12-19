@@ -169,6 +169,7 @@ export default function Home() {
             setIsLoading(true);
             const res = await axios.get(`/groups/group-details/${groupId}`); 
             setSelectedGroup(res.data);
+            
             // console.log(res.data.users);
             setUsersList(res.data.users);
             // console.log(usersList);
@@ -182,6 +183,24 @@ export default function Home() {
             console.log('Error fetching group details:', err);
           }
       }
+      const handleDeleteGroup = async(groupId) =>{
+        try {
+            setIsLoading(true);
+            const res = await axios.delete(`/groups/delete-group/${groupId}`); 
+            setSelectedGroup([]);
+            
+            console.log(res.data);
+            // console.log(usersList);
+            fetchGroups(userDetails);
+            setIsLoading(false);
+            set_no_split(false);
+            setShowExpenses(true);
+            getRes();
+          } catch (err) {
+            setIsLoading(false);
+            console.log('Error fetching group details:', err);
+          }
+        }
    
       const handleCheckboxChange = (userId) => {
         const isChecked = selectedUsers.includes(userId);
@@ -217,20 +236,34 @@ export default function Home() {
     <Link className="link" to="users/logout">Logout</Link>
   </button>
 
-  <div className='container-group'>
-    <h2 className='heading-group'>Group Names:</h2>
-    <div className='member-list'>
-      <ul className='member-item'>
-        {groupList && groupList.map(group => (
-          <li className='member-name' key={group._id} onClick={() => handleGroupClick(group._id)}>
-            <div className='group-name'>{group.group_name}</div>
+  <div className='container-group' >
+    <h2 className='heading-group'>Your Groups:</h2>
+    <div className='member-list-group'>
+      <ul className='member-item' >
+        {groupList && groupList.filter(group => group.group_admin === userDetails._id).map(group => (
+          
+          <li className='member-name' key={group._id} >
+            <div className='group-name' onClick={() => handleGroupClick(group._id)}>{group.group_name}</div>
+            <button className='del' onClick={() => handleDeleteGroup(group._id)}><img className="del-img" src={delImg} /></button>
           </li>
         ))}
       </ul>
     </div>
-    <button>
+    <div>
+    <h2 className='heading-group'>Joined Groups:</h2>
+    <div className='member-list-group' >
+      <ul className='member-item' >
+        {groupList && groupList.filter(group => group.group_admin !== userDetails._id).map(group => (
+          <li className='member-name' key={group._id} >
+            <div className='group-name' onClick={() => handleGroupClick(group._id)}>{group.group_name}</div>
+          </li>
+        ))}
+      </ul>
+    </div>
+    </div>
+    {/* <button style={{position:'fixed',bottom:'130px'}}>
       <Link className="link" to="/normalSplit">Normal Split</Link>
-    </button>
+    </button> */}
   </div>
 
   <div className='container-users'>
@@ -238,9 +271,13 @@ export default function Home() {
       <div className='form-group'>
         <h2 className='heading'>Select Users</h2>
         <form onSubmit={handleCreateGroup}>
+          
           <input placeholder='Group Name' type='text' value={createdGroupName} onChange={(e) => setCreatedGroupName(e.target.value)} required />
-          {allUsers.map((user) => (
-            <div key={user._id}>
+          <div className='member-list'>
+          <ul className='member-item'>
+            {allUsers.map((user) => (
+              <li>
+                <div style={{display:'flex',fontWeight:'550'}}>
               <input
                 type="checkbox"
                 id={user._id}
@@ -248,10 +285,13 @@ export default function Home() {
                 onChange={() => handleCheckboxChange(user._id)}
                 checked={selectedUsers.includes(user._id)}
               />
-              <label htmlFor={user._id}>{user.user_name}</label>
-            </div>
+              <div key={user._id} >{user.user_name}</div>
+              </div>
+              </li>
           ))}
-          <button className='user-button'>Create Group</button>
+          </ul>
+          </div>
+          <button className='user-button' style={{position:'fixed'}}>Create Group</button>
         </form>
       </div>
     ) : (
@@ -260,7 +300,12 @@ export default function Home() {
   </div>
 
   <div className='container'>
-    <h2 className='heading'>{userDetails.user_name}, Add Expense Here:</h2>
+    <h2 className='heading'><label style={{textTransform:'uppercase'}}>{userDetails.user_name}</label>, Add Expense Here:</h2>
+    {selectedGroup &&
+      <div > 
+         <div className='heading'> Group Name :<label style={{textTransform:'uppercase'}}> {selectedGroup.group_name}</label></div>
+         </div>
+      }
     <div>
       <form onSubmit={createBill}>
         <select onChange={updateCreateFormField} value={createForm.payer} name="payer" required>
@@ -276,7 +321,6 @@ export default function Home() {
         <button type='submit'>Add Expense</button>
       </form>
     </div>
-
     {(members.length > 0 && !res) && (
       <div className="member-list">
         <h2>Member List:</h2>
