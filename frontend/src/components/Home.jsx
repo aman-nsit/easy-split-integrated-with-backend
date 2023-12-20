@@ -150,6 +150,7 @@ export default function Home() {
         getRes();
         setShowExpenses(!showExpenses);
         set_no_split(false)
+        await handleGroupClick(selectedGroup._id);
     }
 
 
@@ -237,7 +238,7 @@ export default function Home() {
   </button>
 
   <div className='container-group' >
-    <h2 className='heading-group'>Your Groups:</h2>
+    <h2 className='heading'>Your Groups:</h2>
     <div className='member-list-group'>
       <ul className='member-item' >
         {groupList && groupList.filter(group => group.group_admin === userDetails._id).map(group => (
@@ -267,10 +268,11 @@ export default function Home() {
   <div className='container-users'>
     {allUsers ? (
       <div className='form-group'>
-        <h2 className='heading'>Select Users</h2>
+        <h2 className='heading'>New Group</h2>
         <form onSubmit={handleCreateGroup}>
-          
-          <input placeholder='Group Name' type='text' value={createdGroupName} onChange={(e) => setCreatedGroupName(e.target.value)} required />
+          <div className='group-name-input'>
+          <input  placeholder='Group Name' type='text' value={createdGroupName} onChange={(e) => setCreatedGroupName(e.target.value)} required />
+          </div>
           <div className='member-list'>
           <ul className='member-item'>
             {allUsers.map((user) => (
@@ -283,7 +285,7 @@ export default function Home() {
                 onChange={() => handleCheckboxChange(user._id)}
                 checked={selectedUsers.includes(user._id)}
               />
-              <div key={user._id} >{user.user_name}</div>
+              <div key={user._id} className='select-name' >{user.user_name}</div>
               </div>
               </li>
           ))}
@@ -305,21 +307,24 @@ export default function Home() {
     <h2 className='heading'><label style={{textTransform:'uppercase'}}>{userDetails.user_name}</label>, Add Expense Here:</h2>
     {selectedGroup &&
       <div > 
+        {
+          selectedGroup.users && 
          <div className='heading'> Group Name :<label style={{textTransform:'uppercase'}}> {selectedGroup.group_name}</label></div>
+        }
          </div>
       }
     <div>
       <form onSubmit={createBill}>
         <select onChange={updateCreateFormField} value={createForm.payer} name="payer" required>
-          <option value="">Select User</option>
+          <option  value="">Select User</option>
           {usersList.length && usersList.map((user) => (
-            <option key={user._id} value={user._id}>
+            <option className='option' key={user._id} value={user._id}>
               {user.user_name}
             </option>
           ))}
         </select>
 
-        <input onChange={updateCreateFormField} value={createForm.amount} name="amount" placeholder='Amount' type='number' required />
+        <input className='amount-input' onChange={updateCreateFormField} value={createForm.amount} name="amount" placeholder='Amount' type='number' required />
         <button type='submit'>Add Expense</button>
       </form>
     </div>

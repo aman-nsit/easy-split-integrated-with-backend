@@ -23,6 +23,7 @@
   color: white;
 }
 .form-container{
+  
   max-width: 600px;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -38,6 +39,7 @@
   align-items: center;
   
   .form-heading{
+    
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-align: center;
     padding: 10px;
@@ -84,6 +86,7 @@
   opacity:inherit;
 }
 .container {
+  
   max-width: 600px;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -107,10 +110,12 @@ input{
   margin-left: 10px;
   border-radius:10px;
   background-color:rgb(229, 229, 229);
-  max-width: 20%;
+  max-width: 50%;
   
 }
-
+.amount-input{
+  max-width: 20%;
+}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -218,6 +223,7 @@ li {
   align-items: center;
   padding: 10px;
   border-bottom: 1px solid #ccc;
+  
 }
 
 .member-name {
@@ -229,6 +235,7 @@ li {
 }
 
 .member-item li {
+  color: rgb(65, 65, 65);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -269,7 +276,7 @@ li {
   font-family:Comic Sans MS;
   font-size: 18px;
   text-align: center;
-  margin: -10px 0px 5px 0px;
+  margin: -10px 0px 5px -20px;
   padding: 0px 0px 10px 0px;
 }
 .no_split{
@@ -331,7 +338,7 @@ li {
 }
 .heading-group{
   font-family:Comic Sans MS;
-  font-size: 22px;
+  font-size: 18px;
   text-align: center;
   padding: 6px;
 }
@@ -367,6 +374,11 @@ li {
     bottom:100px;
     font-weight: bold;
   }
+  .group-name-input{
+    max-width: 100%;
+    padding:0px;
+    align-items: center;
+  }
   
 }
 select{
@@ -378,11 +390,16 @@ select{
   margin-left: 10px;
   border-radius:10px;
   background-color:rgb(229, 229, 229);
-  max-width: 30%;
+  max-width: 40%;
   font-size: 15px;
   line-height: 1.5;
   padding: 8px 12px;
   appearance: none; 
+  color:gray;
+  &:hover {
+    color:black; 
+    cursor: pointer;
+  }
 }
 
 
@@ -400,11 +417,16 @@ select{
     align-items: center;
     padding: 10px;
     border-bottom: 1px solid #ccc;
-
+    
     .member-name {
       font-weight: bold;
       display: flex; /* Ensures member name and delete button appear in a row */
       align-items: center;
+      color: rgb(65, 65, 65);
+      &:hover {
+        color: black;
+        cursor: pointer;
+      }
     }
 
     .del {
@@ -434,5 +456,12 @@ select{
     background-color: #ddd;
   }
 }
+.select-name{
+  &:hover {
+    color:black; 
+    cursor: pointer;
+  }
+}
+
 
 
